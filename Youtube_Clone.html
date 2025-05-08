@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Youtube Clone</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body { 
+        font-family: Roboto, arial;
+        padding: 80px 24px 0 95px;
+        background-color: rgb(246, 246, 246);
+      }
+      
+      p {
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 15px;
+        row-gap: 35px;
+      }
+
+      @media (max-width: 1100px) and (min-width: 861px){
+        .grid {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 860px){
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 650px){
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .vedio_preview {
+        
+      }
+      .thumbnail {
+        position: relative;
+        margin-bottom: 12px;
+        cursor: pointer;
+      }
+      .thumbnail:hover .thumbnail_pic {
+      
+      }
+      .thumbnail_pic {
+        width: 100%;
+        
+      }
+      .video_timestamp {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background-color: #000;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 4px 4px 4px 4px;
+        border-radius: 2px;
+      }
+      .author_row {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+         /*align-items: top;
+          margin-bottom: 5px;*/
+          position: relative;
+      }
+      .author_profile {
+        position: absolute;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        width: 300px;
+        border-radius: 8px;
+        bottom: -76px;
+        z-index: 1;
+        opacity: 0;
+      }
+      .author_pro_pic {
+        width: 60px;
+        border-radius: 60px;
+        padding: 15px 0 15px 15px;
+        margin-right: 8px;
+      }
+      .author_name_hov {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .author_subs_num {
+        color: rgb(136, 134, 134);
+      }
+      .author_pic_box {
+        
+      }
+      .author_pic {
+        width: 40px;
+        border-radius: 22px;
+        cursor: pointer;
+      }
+      .author_pic:focus .author_profile{
+        z-index: 1;
+        opacity: 1;
+      }
+      .vedio_info {
+        
+      }
+      .vedio_title {
+        font-size: 14px;
+        width: 100%;
+        font-weight: 500px; 
+        line-height: 20px;
+        margin-bottom: 12px;
+      }
+      .video_title_link {
+        color: black;
+        text-decoration: none;
+      }
+
+      .author_name,
+      .vedio_stats {
+        color: rgb(93, 92, 92);
+        font-size: 12px;
+      }
+      .author_name {
+        margin-bottom: 7px;
+      }
+
+      @media (min-width: 1000px) {
+        .vedio_title {
+          font-size: 16px;
+          line-height: 24px;
+        }
+        .author_name,
+        .vedio_stats {
+          font-size: 14px;
+        }
+      }
+
+
+      .header {
+        display: flex;
+        flex-direction: row;
+        height: 55px;
+        justify-content: space-between;
+        /*align-items: center;*/
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        background-color: white;
+        /*border-bottom: 1px solid rgb(214, 214, 214);*/
+
+        z-index: 10;
+      }
+      .left_section {
+        /*width: 150px;*/
+        display: flex;
+        align-items: center;
+      }
+      .hamburger-icon {
+        height: 24px;
+        margin-left: 24px;
+        margin-right: 27px;
+      }
+      .youtube-logo-icon {
+        height: 20px;
+      }
+
+      .middle_section {
+        flex: 1;
+        margin: 0 35px 0 70px;
+        max-width: 500px;
+        display: flex;
+        align-items: center;
+      }
+      .search_bar {
+        flex: 1;
+        height: 40px;
+        padding-left: 10px;
+        font-size: 16px;
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 2px;
+        box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.05);
+        width: 0;
+      }
+      .search_bar::placeholder {
+        font-size: 16px;
+      }
+      .search_btn {
+        height: 41.5px;
+        width: 70px;
+        border: 1px solid rgb(200, 200, 200);
+        margin: 0 10px 0 -1px;
+        background-color: rgb(244, 243, 243);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .search_btn .tool_tip,
+      .voice_btn .tool_tip,
+      .upload_cont .tool_tip,
+      .youtube_apps_cont .tool_tip,
+      .notification_cont .tool_tip,
+      .profile_container .tool_tip{
+        position: absolute;
+        background-color: gray;
+        color: white;
+        padding: 4px 8px 4px 8px;
+        border-radius: 2px;
+        bottom: -30px;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.20s;
+        white-space: nowrap;
+      }
+      .search_btn:hover .tool_tip,
+      .voice_btn:hover .tool_tip,
+      .upload_cont:hover .tool_tip,
+      .youtube_apps_cont:hover .tool_tip,
+      .notification_cont:hover .tool_tip,
+      .profile_container:hover .tool_tip{
+        opacity: 1;
+      }
+      .voice_btn {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        border: none;
+        background-color: rgb(244, 243, 243);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .search_icon {
+        height: 25px;
+      }
+      .voice-search-icon {
+        height: 24px;
+      }
+
+      .right_section {
+        width: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        margin-right: 20px;
+      }
+      .upload_cont,
+      .youtube_apps_cont,
+      .profile_container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .upload_icon {
+        height: 24px;
+      }
+      .youtube_apps_icon {
+        height: 24px;
+      }
+      .notification_cont {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .notifications_icon {
+        height: 24px;
+      }
+      .notification_count {
+        position: absolute;
+        top: -2px;
+        right: -5px;
+        background-color: rgb(210, 11, 11);
+        color: white;
+        padding: 2px 5px 2px 5px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+      
+      /*current-user-picture*/.my_channel_pic {
+        height: 32px;
+        border-radius: 16px;
+      }
+
+
+      .sidebar {
+        background-color: white;
+        width: 72px;
+        position: fixed;
+        top: 55px;
+        left: 0;
+        bottom: 0;
+      }
+      .sidebar_link {
+        height: 74px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .sidebar_link:hover {
+        background-color: rgb(233, 233, 233);
+      }
+      .sidebar_link img {
+        height: 25px;
+        margin-bottom: 4px;
+      }
+      .sidebar_link div {
+        font-size: 10px;
+      }
+
+      @media (min-width: 1200px) {
+        body {
+          padding-left: 220px;
+        }
+        .sidebar {
+          width: 200px;
+        }
+        .sidebar_link {
+          flex-direction: row;
+          align-items: center;
+          justify-content: start;
+          height: 40px;
+          padding: 10px 0 10px 20px;
+        }
+
+        .sidebar div {
+          font-size: 15px;
+        }
+
+        .sidebar_link img {
+          margin-right: 18px;
+      }
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <!--SEMANTIC ELEMENTS same AS DIV EXCEPT THEY SPECIAL MEANING TO SCREEN READING, SEARCH ENGINES AND ANT OTHER DEVICE OR ROBOT THAT IS READING OUR WEBPAGE-->
+    <header class="header">
+      <div class="left_section">
+        <img src="Icons/hamburger-menu.svg" alt="" class="hamburger-icon">
+        <img src="Icons/youtube-logo.svg" alt="" class="youtube-logo-icon">
+      </div>
+      <div class="middle_section">
+        <input type="text" placeholder="Search" class="search_bar">
+        <button class="search_btn">
+          <img src="Icons/search.svg" alt="" class="search_icon">
+          <div class="tool_tip">Search</div>
+        </button>
+        <button class="voice_btn">
+          <img src="Icons/voice-search-icon.svg" alt="" class="voice-search-icon">
+          <div class="tool_tip">Search with your voice</div>
+        </button>
+      </div>
+      <div class="right_section">
+        <div class="upload_cont">
+          <img src="Icons/upload.svg" alt="upload_icon" class="upload_icon">
+          <div class="tool_tip">Create</div>
+        </div>
+        <div class="youtube_apps_cont">
+          <img src="Icons/youtube-apps.svg" alt="youtube-apps" class="youtube_apps_icon">
+          <div class="tool_tip">Youtube apps</div>
+        </div>
+        <div class="notification_cont">
+          <img src="Icons/notifications.svg" alt="notifications-icon" class="notifications_icon">
+          <div class="notification_count">3</div>
+          <div class="tool_tip">Notifications</div>
+        </div>
+        <div class="profile_container">
+          <img src="Channel_pics/my-channel.jpeg" alt="my-channel-pic" class="my_channel_pic">
+          <div class="tool_tip">Profile</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="sidebar">
+      <div class="sidebar_link">
+        
+          <img src="Icons/home.svg" alt="Home-icon">
+          <div>Home</div>
+      
+      </div>
+      <div class="sidebar_link">
+        <img src="Icons/explore.svg" alt="explore-icon">
+        <div>Explore</div>
+      </div>
+      <div class="sidebar_link">
+        <img src="Icons/subscriptions.svg" alt="Y-subs-icon">
+        <div>Subscribtions</div>
+      </div>
+      <div class="sidebar_link">
+        <img src="Icons/originals.svg" alt="originals-icon">
+        <div>Originals</div>
+      </div>
+      <div class="sidebar_link">
+        <img src="Icons/youtube-music.svg" alt="Y-music-icon">
+        <div>Youtube Music</div>
+      </div>
+      <div class="sidebar_link">
+        <img src="Icons/library.svg" alt="library-icon">
+        <div>Library</div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="grid">
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-1.webp" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">14:21</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-1.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Marques Brownlee</p>
+                <p class="author_subs_num">15M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-1.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/youtube_v_page.html" target="_blank" class="video_title_link">Talking Tech and AI with Google CEO Sundar Pichai!</a>
+              </p>
+              <p class="author_name">Marques Brownlee</p>
+              <p class="vedio_stats"> 3.4M views &#8226; 6 months ago</p>
+            </div>
+          </div>
+          
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-2.webp" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">8:22</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-2.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Markiplier</p>
+                <p class="author_subs_num">30M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-2.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/Veritasium-page.html" target="_blank" class="video_title_link">Try Not To Laugh Challenge &#35;9</a>
+              </p>
+              <p class="author_name">Markiplier</p>
+              <p class="vedio_stats"> 194M views &#8226; 4 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-3.webp" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">9:13</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-3.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">SSSniperWolf</p>
+                <p class="author_subs_num">12M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-3.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/SSSniperWolf-page.html" target="_blank" class="video_title_link">Crazy Tik Toks Taken Moments Before DISASTER</a>
+              </p>
+              <p class="author_name">SSSniperWolf</p>
+              <p class="vedio_stats"> 12M views &#8226; 1 year ago</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-4.webp" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">17:32</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-4.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Veritasium</p>
+                <p class="author_subs_num">40M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-4.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/Veritasium-page.html" target="_blank" class="video_title_link">The Simplest Math Problem No One Can Solve - Collatz Conjecture</a>
+              </p>
+              <p class="author_name">Veritasium</p>
+              <p class="vedio_stats"> 18M views &#8226; 4 months ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-5.webp" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">23:13</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-5.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">CS Dojo</p>
+                <p class="author_subs_num">64M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-5.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/CSDojo-page.html" target="_blank" class="video_title_link">Kadane's Algorithm to Maximum Sum Subarray Problem</a>
+              </p>
+              <p class="author_name">CS Dojo</p>
+              <p class="vedio_stats"> 519K views &#8226; 5 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-6.webp" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">14:23</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-6.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">MrBeast</p>
+                <p class="author_subs_num">354M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-6.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/MrBeast-page.html" target="_blank" class="video_title_link">Anything You Can Fit In The Circle I’ll Pay For</a>
+              </p>
+              <p class="author_name">MrBeast</p>
+              <p class="vedio_stats"> 141M views &#8226; 1 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-7.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">29:37</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/my-channel-7.jpeg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">SuperSimpleDev</p>
+                <p class="author_subs_num">558K subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/my-channel-7.jpeg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/SuperSimpleDev-page.html" target="_blank" class="video_title_link">How to put an HTML website online (on the Internet)</a>
+              </p>       
+              <p class="author_name">SuperSimpleDev</p>
+              <p class="vedio_stats"> 1.8M views &#8226; 2 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-8.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">10:20</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels8_profile.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Kevin Naughton Jr.</p>
+                <p class="author_subs_num">139K Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-8.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=ydYBRLoBUpY&t=440s" target="_blank" class="video_title_link">Advice from the Top 1% of Software Engineers</a>
+              </p>
+              <p class="author_name">Kevin Naughton Jr.</p>
+              <p class="vedio_stats"> 3.4M views &#8226; 2 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-9.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">34:44</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-9.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Smoljames</p>
+                <p class="author_subs_num">48.2K Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-9.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=nP0-oYGiqts&t=139s" target="_blank" class="video_title_link">How I learned to Code in 6 MONTHS & Got a Job Offer (Self-Taught)</a>
+              </p>
+              <p class="author_name">Smoljames</p>
+              <p class="vedio_stats">788K views &#8226; 1 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-10.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">15:15</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-10.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Programming with Mosh</p>
+                <p class="author_subs_num">4.26M Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-10.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=GxmfcnU3feo&t=8s" target="_blank" class="video_title_link">The Complete Web Development Roadmap [2024]</a>
+              </p>
+              <p class="author_name">Programming with Mosh</p>
+              <p class="vedio_stats"> 274K views &#8226; 4 months ago </p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-11.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">1:16:18</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-11.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Dugsiiye</p>
+                <p class="author_subs_num">14.3K subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-11.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=HdgorlTe88A&t=1061s" target="_blank" class="video_title_link">Baro Git and GitHub Af Somali | GitHub Tutorial Somali Full Course</a>
+              </p>
+              <p class="author_name">Dugsiiye</p>
+              <p class="vedio_stats"> 2K views &#8226; 3 days ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-12.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">7:09</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-12.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">Sahil & Sarra</p>
+                <p class="author_subs_num">785k Subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-12.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=dqlO6_5rZSQ&t=54s" target="_blank" class="video_title_link">I tried 50 Programming Courses. Here are Top 5.</a>
+              </p>
+              <p class="author_name">Sahil & Sarra</p>
+              <p class="vedio_stats"> 2.4M views &#8226; 1 years ago</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-16.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">19:26</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels16_profile.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">TEDx Talks</p>
+                <p class="author_subs_num">42.1M subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels16_profile.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=dqlO6_5rZSQ&t=54s" target="_blank" class="video_title_link">The first 20 hours -- how to learn anything | Josh Kaufman | TEDxCSU</a>
+              </p>
+              <p class="author_name">TEDx Talks</p>
+              <p class="vedio_stats">40M views  11 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-17.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">6:21</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels17_profile.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">CyberFlow</p>
+                <p class="author_subs_num">108K subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels17_profile.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=dqlO6_5rZSQ&t=54s" target="_blank" class="video_title_link">How To Learn Hacking - a Full Guide (2024)</a>
+              </p>
+              <p class="author_name">CyberFlow</p>
+              <p class="vedio_stats">632K views  11 months ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-18.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">17:03</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-18.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">TED</p>
+                <p class="author_subs_num">25.5M subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels18_profile.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=dqlO6_5rZSQ&t=54s" target="_blank" class="video_title_link">Math is the hidden secret to understanding the world | Roger Antonsen</a>
+              </p>
+              <p class="author_name">TED</p>
+              <p class="vedio_stats">1.8M views 8 years ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="vedio_preview">
+          <div class="thumbnail">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-19.avif" alt="" class="thumbnail_pic">
+            <div class="video_timestamp">1:01:51:22</div>
+          </div>
+          <div class="author_row">
+            <div class="author_profile">
+              <div class="author_pro_pic_ho" ><img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels19_profile.jpg" alt="" class="author_pro_pic"></div>
+              <div class="author_pro_info_ho">
+                <p class="author_name_hov">freeCodeCamp.org</p>
+                <p class="author_subs_num">10.3M subscribers</p>
+              </div>
+            </div>
+            <div class="author_pic_box">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channels19_profile.jpg" alt="" class="author_pic">
+            </div>
+            <div class="vedio_info">
+              <p class="vedio_title">   
+                <a href="https://www.youtube.com/watch?v=dqlO6_5rZSQ&t=54s" target="_blank" class="video_title_link">Harvard CS50 (2023) – Full Computer Science University Course</a>
+              </p>
+              <p class="author_name">WIRED</p>
+              <p class="vedio_stats">5.6M views  1 year ago</p>
+            </div>
+          </div>
+        </div>
+        
+      </section>
+    </main>
+  </body>
+</html>
