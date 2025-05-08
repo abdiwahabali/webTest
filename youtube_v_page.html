@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YOUTUBE VIDEO PAGE</title>
+
+    <style>
+
+      * {
+         margin: 0;
+         padding: 0;
+     }
+      body { 
+        font-family: Roboto, arial;
+        padding: 80px 24px 0 83px;
+        height: 1750px;
+        /*background-color: rgb(246, 246, 246);*/
+      }
+      
+      p {
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+      a {
+        display: flex;
+        text-decoration: none;
+        color: black
+      }
+
+.header {
+        display: flex;
+        flex-direction: row;
+        height: 55px;
+        justify-content: space-between;
+        /*align-items: center;*/
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        background-color: white;
+        border-bottom: 1px solid rgb(214, 214, 214);
+
+        z-index: 10;
+      }
+      .left_section {
+        /*width: 150px;*/
+        display: flex;
+        align-items: center;
+      }
+      .hamburger-icon {
+        height: 24px;
+        margin-left: 24px;
+        margin-right: 27px;
+      }
+      .youtube-logo-icon {
+        height: 20px;
+      }
+
+      .middle_section {
+        flex: 1;
+        margin: 0 35px 0 70px;
+        max-width: 500px;
+        display: flex;
+        align-items: center;
+      }
+      .search_bar {
+        flex: 1;
+        height: 40px;
+        padding-left: 10px;
+        font-size: 16px;
+        border: 1px solid rgb(200, 200, 200);
+        border-radius: 2px;
+        box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.05);
+        width: 0;
+      }
+      .search_bar::placeholder {
+        font-size: 16px;
+      }
+      .search_btn {
+        height: 41.5px;
+        width: 70px;
+        border: 1px solid rgb(200, 200, 200);
+        margin: 0 10px 0 -1px;
+        background-color: rgb(244, 243, 243);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .search_btn .tool_tip,
+      .voice_btn .tool_tip,
+      .upload_cont .tool_tip,
+      .youtube_apps_cont .tool_tip,
+      .notification_cont .tool_tip,
+      .profile_container .tool_tip{
+        position: absolute;
+        background-color: gray;
+        color: white;
+        padding: 4px 8px 4px 8px;
+        border-radius: 2px;
+        bottom: -30px;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.20s;
+        white-space: nowrap;
+      }
+      .search_btn:hover .tool_tip,
+      .voice_btn:hover .tool_tip,
+      .upload_cont:hover .tool_tip,
+      .youtube_apps_cont:hover .tool_tip,
+      .notification_cont:hover .tool_tip,
+      .profile_container:hover .tool_tip{
+        opacity: 1;
+      }
+      .voice_btn {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        border: none;
+        background-color: rgb(244, 243, 243);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .search_icon {
+        height: 25px;
+      }
+      .voice-search-icon {
+        height: 24px;
+      }
+
+      .right_section {
+        width: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        margin-right: 20px;
+      }
+      .upload_cont,
+      .youtube_apps_cont,
+      .profile_container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .upload_icon {
+        height: 24px;
+      }
+      .youtube_apps_icon {
+        height: 24px;
+      }
+      .notification_cont {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .notifications_icon {
+        height: 24px;
+      }
+      .notification_count {
+        position: absolute;
+        top: -2px;
+        right: -5px;
+        background-color: rgb(210, 11, 11);
+        color: white;
+        padding: 2px 5px 2px 5px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+      
+      /*current-user-picture*/.my_channel_pic {
+        height: 32px;
+        border-radius: 16px;
+      }
+
+
+      .main {
+        display: flex;
+        column-gap: 25px;
+      }
+      .leftsection {
+        width: 928px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+      }
+      .video iframe{
+        width: 100%;
+        height: 520px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 12px;
+      }
+      .video-title {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .video-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .profile-sect {
+        display: flex;
+        align-items: center;
+      }
+      .profile-info {
+        margin-right: 25px;
+      }
+      .profile-pic-u {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin-right: 12px;
+      }
+      .profile-name {
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .subscribtion-num {
+        color: rgb(115, 115, 115);
+        font-size: 12px;
+      }
+      .subscribtion-btn {
+        background-color: black;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 14px;
+        border-radius: 20px;
+
+      }
+
+      .engagement-sect {
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+      .liked-prt {
+        display: flex;
+        align-items: center;
+        background-color: rgb(234, 234, 234);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .like {
+        position: relative;
+        display: flex;
+        padding: 9px 15px 9px 10px;
+      }
+      .like-icon {
+        height: 18px;
+        margin-right: 5px;
+        cursor: pointer;
+      }
+      .like-icon-count {
+        font-size: 14px;
+      }
+      .dislike {
+        display: flex;
+        padding: 9px 15px 9px 15px;
+      }
+      .dislike-icon {
+        height: 18px;
+        /*color: transparent;*/
+      }
+      .like:hover, 
+      .dislike:hover,
+      .share-prt:hover,
+      .download-prt:hover,
+      .more-prt:hover {
+        background-color: rgb(218, 218, 218);
+        cursor: pointer;
+      }
+      .vertical-line {
+        background-color: rgb(174, 174, 174);
+        width: 1px;
+        position: absolute;
+        bottom: 7px;
+        top: 7px;
+        right: 0;
+      }
+
+      .share-prt,
+      .download-prt {
+        display: flex;
+        align-items: center;
+        background-color: rgb(234, 234, 234);
+        padding: 9px 15px;
+        border-radius: 20px;
+        margin-left: 20px;
+
+        position: relative;
+      }
+      .share-icon {
+        height: 18px;
+        margin-right: 8px;
+      }
+      .tooltip-vp {
+        background-color: rgb(255, 255, 255);
+        color: grey;
+        border: 1px solid black;
+        padding: 4px 6px;
+        position: absolute;
+        bottom: -28px;
+        right: 18px;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .tooltip-vp-dwload {
+        background-color: grey;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 7px;
+        position: absolute;
+        bottom: -57px;
+        opacity: 0;
+        pointer-events: none;
+        font-size: 12px;
+      }
+      .share-prt:hover .tooltip-vp,
+      .download-prt:hover .tooltip-vp{
+        opacity: 1;
+      }
+      .download-icon {
+        height: 15px;
+        margin-right: 10px;
+      }
+      .more-prt {
+        background-color: rgb(234, 234, 234);
+        padding: 9px 10px;
+        border-radius: 25px;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+      }
+      .more-icon {
+        height: 18px;
+      }
+      .video-desc-lfsc {
+        background-color: rgb(234, 234, 234);
+        padding: 12px 10px;
+        border-radius: 10px;
+      }
+
+      .comment-section {
+
+      }
+      .cmnt-header {
+        display: flex;
+        column-gap: 40px;
+      }
+      .comment-countls {
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .sort-comment{
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .sort-icon {
+        height: 25px;
+        color: gray;
+      }
+      .sort-textls {
+        
+      }
+      
+      .comment-section {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+      }
+      .comments-desc-ls {
+        display: flex;
+        flex-direction: column;
+        row-gap: 50px;
+      }
+      .comnt-hldr-cont {
+        display: flex;
+        align-items: start;
+        column-gap: 15px;
+      }
+      .cmnt-w-profile {
+        width: 40px;
+        border-radius: 20px;
+      }
+      .comnt-hldr-cont input {
+        border: none;
+        flex: 1;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgb(221, 220, 220);
+        margin-right: 15px;
+        padding: 2px 0 5px 0;
+        font-size: 15px;
+      }
+      .comnt-hldr-cont input:active {
+        border: none;
+      }
+      .comment-input:focus {
+        outline: none;
+      }
+
+      .cmnt-esblsh-info {
+        display: flex;
+        column-gap: 15px;
+      }
+      .comment-infols {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+      }
+      .comnt-stats-prols {
+        display: flex;
+        column-gap: 3px;
+        font-size: 14px;
+      }
+      .cmnt-pro-namels {
+        font-weight: bold;
+      }
+      .comment-reactions {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+      }
+      .dont-like-cmnt {
+        display: flex;
+      }
+      .like-cmnt {
+        display: flex;
+        column-gap: 7px;
+        margin-right: 5px;
+      }
+      .like-icon-c,
+      .dont-like-icon-c {
+        height: 18px;
+      }
+      .like-cmnt-count {
+        font-size: 14px;
+      }
+      .cmnt-reply {
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 20px;
+      }
+      
+
+
+
+      .rightsection {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+      }
+      .topics {
+        display: flex;
+        column-gap: 15px;
+        height: 35px;
+      }
+      .t-links {
+        background-color: rgb(234, 234, 234);
+        padding: 8px 15px;
+        border-radius: 12px;
+      }
+
+      .sideline-videos {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+      }
+      .sideline-videos-cont {
+        display: flex;
+      }
+      .sideline-videos-thumnail {
+        width: 200px;
+        border-radius: 10px;
+        margin-right: 10px;
+      }
+      .sideline-videos-info {
+        width: 200px;
+        margin-right: 12px;
+      }
+      .more-desc-slvt {
+        height: 20px;
+      }
+      .sline-vtitle {
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
+      .sl-channel-name,
+      .sl-channel-stats {
+        font-size: 14px;
+        color: rgb(134, 134, 134);
+      }
+      .sl-channel-name {
+        margin-bottom: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--vp: video page-->
+    
+    <header class="header">
+      <div class="left_section">
+        <img src="Icons/hamburger-menu.svg" alt="" class="hamburger-icon">
+        <a href="http://127.0.0.1:5501/Youtube_Clone.html"> 
+          <img src="Icons/youtube-logo.svg" alt="" class="youtube-logo-icon">
+        </a>
+      </div>
+      <div class="middle_section">
+        <input type="text" placeholder="Search" class="search_bar">
+        <button class="search_btn">
+          <img src="Icons/search.svg" alt="" class="search_icon">
+          <div class="tool_tip">Search</div>
+        </button>
+        <button class="voice_btn">
+          <img src="Icons/voice-search-icon.svg" alt="" class="voice-search-icon">
+          <div class="tool_tip">Search with your voice</div>
+        </button>
+      </div>
+      <div class="right_section">
+        <div class="upload_cont">
+          <img src="Icons/upload.svg" alt="upload_icon" class="upload_icon">
+          <div class="tool_tip">Create</div>
+        </div>
+        <div class="youtube_apps_cont">
+          <img src="Icons/youtube-apps.svg" alt="youtube-apps" class="youtube_apps_icon">
+          <div class="tool_tip">Youtube apps</div>
+        </div>
+        <div class="notification_cont">
+          <img src="Icons/notifications.svg" alt="notifications-icon" class="notifications_icon">
+          <div class="notification_count">3</div>
+          <div class="tool_tip">Notifications</div>
+        </div>
+        <div class="profile_container">
+          <img src="Channel_pics/my-channel.jpeg" alt="my-channel-pic" class="my_channel_pic">
+          <div class="tool_tip">Profile</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="leftsection">
+        <div class="video">
+          <!--<embed src="https://www.youtube.com/embed/n2RNcPRtAiY" controls autoplay muted fullscreen></embed>-->
+          <iframe width="1044" height="522" src="https://www.youtube.com/embed/n2RNcPRtAiY" title="Talking Tech and AI with Google CEO Sundar Pichai!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <div class="video-title">Talking Tech and AI with Google CEO Sundar Pichai!</div>
+        </div>
+        <div class="video-info">
+          <div class="profile-sect">
+            <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-1.jpeg" alt="" class="profile-pic-u">
+            <div class="profile-info">
+              <div class="profile-name">Flux Academy &#10003;</div>
+              <div class="subscribtion-num">905K subscribers</div>
+            </div>
+            <button class="subscribtion-btn">Subscribe</button>
+          </div>
+          <div class="engagement-sect">
+            <div class="liked-prt">
+              <div class="like">
+                <img src="Icons/like-icon2.png" alt="" class="like-icon">
+                <div class="like-icon-count">195K</div>
+                <div class="vertical-line"></div>
+              </div>
+              <div class="dislike">
+                <img src="Icons/dont-like.png" alt="" class="dislike-icon">
+              </div>
+            </div> 
+            <div class="share-prt">
+              <img src="Icons/share-icon-f.png" alt="" class="share-icon">
+              <div class="share-txt">Share</div>
+              <div class="tooltip-vp">Share</div>
+            </div>
+            <div class="download-prt">
+              <img src="Icons/download-icon-flat.png" alt="" class="download-icon">
+              <div class="share-txt">Download</div>
+              <div class="tooltip-vp tooltip-vp-dwload">Download</div>
+            </div>
+            <div class="more-prt">
+              <img src="Icons/more-icon-bfl.png" alt="" class="more-icon">
+            </div>
+          </div>
+        </div>
+        <div class="video-desc-lfsc">
+          1,269,945 views  Apr 15, 2020  #freelancer #webdesign #FreeWebDesignCourse
+          Watch our NEW free web design course (updated for 2024) 👉    • Learn Web Design For Beginners - Full... 
+        </div>
+        <div class="comment-section">
+          <div class="cmnt-header">
+            <div class="comment-countls">1,289 Comments</div>
+            <div class="sort-comment">
+              <img src="Icons/sort-icon-1.png" alt="" class="sort-icon">
+              <div class="sort-textls">sort by</div>
+            </div>
+          </div>
+          <div class="comments-desc-ls">
+            <div class="comnt-hldr-cont">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/channel-pictures/channel-12.jpg" alt="" class="cmnt-w-profile">
+              <input type="text" class="comment-input" placeholder="Add a comment">
+            </div>
+
+            <div class="cmnt-esblsh-info">
+              <div class="cmnt-w-profile-cont"><img src="Channel_pics/cmntprofile-pics/channels1_profile.jpg" alt="" class="cmnt-w-profile"></div>
+              <div class="comment-infols">
+                <div class="comnt-stats-prols">
+                  <div class="cmnt-pro-namels">@froilanemeliano6551</div>
+                  <div class="cmnt-datels">9 months ago</div>
+                </div>
+                <div class="the-comment">time stamp 5:30 einstein said 6:15 list website 6:25 1 ecommerce, 2 b card</div>
+                <div class="comment-reactions">
+                  <div class="like-cmnt">
+                    <img src="Icons/like-icon2.png" alt="" class="like-icon-c">
+                    <div class="like-cmnt-count">7</div>
+                  </div>
+                  <div class="dont-like-cmnt">
+                    <img src="Icons/dont-like.png" alt="" class="dont-like-icon-c">
+                  </div>
+                  <div class="cmnt-reply">Reply</div>
+                </div>
+              </div>
+              <div class="cmnt-more-icon"><img src="Icons/dots.png" alt="" class="more-icon"></div>
+            </div>
+            <div class="cmnt-esblsh-info">
+              <div class="cmnt-w-profile-cont"><img src="Channel_pics/cmntprofile-pics/channels2_profile.jpg" alt="" class="cmnt-w-profile"></div>
+              <div class="comment-infols">
+                <div class="comnt-stats-prols">
+                  <div class="cmnt-pro-namels">@jane_alom</div>
+                  <div class="cmnt-datels">10 months ago</div>
+                </div>
+                <div class="the-comment">In my whole life this is the first time I watched 3 hours plus course full of A to Z here in youtube.Thank you man for such a great course.</div>
+                <div class="comment-reactions">
+                  <div class="like-cmnt">
+                    <img src="Icons/like-icon2.png" alt="" class="like-icon-c">
+                    <div class="like-cmnt-count">337</div>
+                  </div>
+                  <div class="dont-like-cmnt">
+                    <img src="Icons/dont-like.png" alt="" class="dont-like-icon-c">
+                  </div>
+                  <div class="cmnt-reply">Reply</div>
+                </div>
+              </div>
+              <div class="cmnt-more-icon"><img src="Icons/dots.png" alt="" class="more-icon"></div>
+            </div>
+            <div class="cmnt-esblsh-info">
+              <div class="cmnt-w-profile-cont"><img src="Channel_pics/cmntprofile-pics/channels3_profile.jpg" alt="" class="cmnt-w-profile"></div>
+              <div class="comment-infols">
+                <div class="comnt-stats-prols">
+                  <div class="cmnt-pro-namels">@birisflavius1716</div>
+                  <div class="cmnt-datels">10 months ago</div>
+                </div>
+                <div class="the-comment">Personally I've been learning web design by myself for the last 5 or 6 months and even got a client that I'm currently in the strategy period with. Your channel has helped me lots with the entire process and this course is an absolute killer! Before I've started watching it I was always obsessing over layouts and was losing too much time when wireframing and when you said that you shouldn't do that and only focus on the content it made complete sense to me. Just that VERY valuable detail alone is one thing that has made the course worth watching for me even if I already knew the big majority of things presented already, and given that I didn't finish it means that there'll be even more new details that I never tought about and that I can make use of. Thank you Ran and Flux Academy!</div>
+                <div class="comment-reactions">
+                  <div class="like-cmnt">
+                    <img src="Icons/like-icon2.png" alt="" class="like-icon-c">
+                    <div class="like-cmnt-count">427</div>
+                  </div>
+                  <div class="dont-like-cmnt">
+                    <img src="Icons/dont-like.png" alt="" class="dont-like-icon-c">
+                  </div>
+                  <div class="cmnt-reply">Reply</div>
+                </div>
+              </div>
+              <div class="cmnt-more-icon"><img src="Icons/dots.png" alt="" class="more-icon"></div>
+            </div>
+            <div class="cmnt-esblsh-info">
+              <div class="cmnt-w-profile-cont"><img src="Channel_pics/cmntprofile-pics/channels4_profile.jpg" alt="" class="cmnt-w-profile"></div>
+              <div class="comment-infols">
+                <div class="comnt-stats-prols">
+                  <div class="cmnt-pro-namels">@johnmahugu</div>
+                  <div class="cmnt-datels">9 months ago</div>
+                </div>
+                <div class="the-comment">I am a web designer  / fullstack developer for over 2 decades, this course is on point! i absolutely love it.</div>
+                <div class="comment-reactions">
+                  <div class="like-cmnt">
+                    <img src="Icons/like-icon2.png" alt="" class="like-icon-c">
+                    <div class="like-cmnt-count">7</div>
+                  </div>
+                  <div class="dont-like-cmnt">
+                    <img src="Icons/dont-like.png" alt="" class="dont-like-icon-c">
+                  </div>
+                  <div class="cmnt-reply">Reply</div>
+                </div>
+              </div>
+              <div class="cmnt-more-icon"><img src="Icons/dots.png" alt="" class="more-icon"></div>
+            </div>
+            <div class="cmnt-esblsh-info">
+              <div class="cmnt-w-profile-cont"><img src="Channel_pics/cmntprofile-pics/channels5_profile.jpg" alt="" class="cmnt-w-profile"></div>
+              <div class="comment-infols">
+                <div class="comnt-stats-prols">
+                  <div class="cmnt-pro-namels">@froilanemeliano6551</div>
+                  <div class="cmnt-datels">9 months ago</div>
+                </div>
+                <div class="the-comment">time stamp 5:30 einstein said 6:15 list website 6:25 1 ecommerce, 2 b card</div>
+                <div class="comment-reactions">
+                  <div class="like-cmnt">
+                    <img src="Icons/like-icon2.png" alt="" class="like-icon-c">
+                    <div class="like-cmnt-count">7</div>
+                  </div>
+                  <div class="dont-like-cmnt">
+                    <img src="Icons/dont-like.png" alt="" class="dont-like-icon-c">
+                  </div>
+                  <div class="cmnt-reply">Reply</div>
+                </div>
+              </div>
+              <div class="cmnt-more-icon"><img src="Icons/dots.png" alt="" class="more-icon"></div>
+            </div>
+            <div class="cmnt-esblsh-info">
+              <div class="cmnt-w-profile-cont"><img src="Channel_pics/cmntprofile-pics/channels6_profile (1).jpg" alt="" class="cmnt-w-profile"></div>
+              <div class="comment-infols">
+                <div class="comnt-stats-prols">
+                  <div class="cmnt-pro-namels">@irvinparcon</div>
+                  <div class="cmnt-datels">6 months ago</div>
+                </div>
+                <div class="the-comment">I have been a web developer for the past 10 years and 60% of the topics you discussed is something that I have just learned from you. very helpful and informative and I'm so glad I found this video. Thank you.</div>
+                <div class="comment-reactions">
+                  <div class="like-cmnt">
+                    <img src="Icons/like-icon2.png" alt="" class="like-icon-c">
+                    <div class="like-cmnt-count">110</div>
+                  </div>
+                  <div class="dont-like-cmnt">
+                    <img src="Icons/dont-like.png" alt="" class="dont-like-icon-c">
+                  </div>
+                  <div class="cmnt-reply">Reply</div>
+                </div>
+              </div>
+              <div class="cmnt-more-icon"><img src="Icons/dots.png" alt="" class="more-icon"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="rightsection">
+        <div class="topics">
+          <div class="All t-links">All</div>
+          <div class="Web developement t-links">Web developement</div>
+          <div class="Supersimbledev t-links">Supersimbledev</div>
+        </div>
+        <div class="sideline-videos">
+          <div class="sideline-videos-cont">
+            <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/Veritasium-page.html" target="_blank">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-4.webp" alt="" class="sideline-videos-thumnail">
+              <div class="sideline-videos-info">
+                <div class="sline-vtitle">The Simplest Math Problem No One Can Solve - Collatz Conjecture</div>
+                <div class="sl-channel-name">Veritasium</div>
+                <div class="sl-channel-stats">42M views  3 years ago</div>
+              </div>
+            </a>  
+            <img src="Icons/dots.png" alt="" class="more-desc-slvt">
+          </div>
+          <div class="sideline-videos-cont">
+            <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/SSSniperWolf-page.html" target="_blank">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-3.webp" alt="" class="sideline-videos-thumnail">
+              <div class="sideline-videos-info">
+                <div class="sline-vtitle">Crazy Tik Toks Taken Moments Before DISASTER</div>
+                <div class="sl-channel-name">SSSniperWolf</div>
+                <div class="sl-channel-stats">12M views  1 years ago</div>
+              </div>
+            </a>  
+            <img src="Icons/dots.png" alt="" class="more-desc-slvt">
+          </div>
+          <div class="sideline-videos-cont">
+            <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/Fluxacdmy-page.html" target="_blank">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-13.avif" alt="" class="sideline-videos-thumnail">
+              <div class="sideline-videos-info">
+                <div class="sline-vtitle">FREE Web Design Course (2020): Introduction to Web Design | Episode 1</div>
+                <div class="sl-channel-name">Flux Academy</div>
+                <div class="sl-channel-stats">1.2M views  4 years ago</div>
+              </div>
+            </a>  
+            <img src="Icons/dots.png" alt="" class="more-desc-slvt">
+          </div>
+          <div class="sideline-videos-cont">
+            <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/CSDojo-page.html" target="_blank">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-5.webp" alt="" class="sideline-videos-thumnail">
+              <div class="sideline-videos-info">
+                <div class="sline-vtitle">Kadane's Algorithm to Maximum Sum Subarray Problem</div>
+                <div class="sl-channel-name">CS Dojo</div>
+                <div class="sl-channel-stats">519K views  5 years ago</div>
+              </div>
+            </a>  
+            <img src="Icons/dots.png" alt="" class="more-desc-slvt">
+          </div>
+          <div class="sideline-videos-cont">
+            <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/MrBeast-page.html" target="_blank">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-6.webp" alt="" class="sideline-videos-thumnail">
+              <div class="sideline-videos-info">
+                <div class="sline-vtitle">Anything You Can Fit In The Circle I’ll Pay For</div>
+                <div class="sl-channel-name">MrBeast</div>
+                <div class="sl-channel-stats">141M views  1 years ago</div>
+              </div>
+            </a>  
+            <img src="Icons/dots.png" alt="" class="more-desc-slvt">
+          </div>
+          <div class="sideline-videos-cont">
+            <a href="http://127.0.0.1:5501/big%20tech%20web%20projects/SuperSimpleDev-page.html" target="_blank">
+              <img src="gridpractic_thumbnail_profpicturesofyoutube/thumbnails/thumbnail-8.avif" alt="" class="sideline-videos-thumnail">
+              <div class="sideline-videos-info">
+                <div class="sline-vtitle">Advice from the Top 1% of Software Engineers</div>
+                <div class="sl-channel-name">Kevin Naughton Jr</div>
+                <div class="sl-channel-stats">3.4M views 2 years ago</div>
+              </div>
+            </a>  
+            <img src="Icons/dots.png" alt="" class="more-desc-slvt">
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
